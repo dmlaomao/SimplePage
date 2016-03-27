@@ -30,22 +30,6 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
-<script>
-$(document).ready(function(){
-        $("button").click(function(){
-           $.ajax({
-                type: "POST",
-                url : "/blog",
-                success: function (data) {
-                    var blogData = jQuery.parseJSON(data);
-                    $("h1").append(blogData.title);
-                    $("p1").append(blogData.content);
-                }
-            });
-            alert("sb");  
-    });
-});
-</script>
 
   </head>
 
@@ -76,9 +60,9 @@ $(document).ready(function(){
 
           <div class="blog-post">
             <button type="button">get blog</button>
-            <h1 class="blog-post-title"></h1>
+            <h1 class="blog-post-title" style = "display:none;"></h1>
             <p class="blog-post-meta">Date not specified by <a href="./about.html">dmlaomao</a></p>
-            <p1 ></p1>
+            <p1 style = "display:none;"></p1>
           </div>
 
 <!--
@@ -205,5 +189,35 @@ $(document).ready(function(){
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="./posts_files/ie10-viewport-bug-workaround.js"></script>
   
+
+
+
+
+
+<script>
+$(document).ready(function(){
+        //$("button").click(function(){
+           $.ajax({
+                type: "POST",
+                url : "/blog",
+                data:{
+                    ID:"4"
+                },
+                success: function (data) {
+                    var blogData = jQuery.parseJSON(data);
+                    $("h1").append(blogData.title);
+                    $("p1").append(blogData.content).fadeIn("slow");
+                }
+            });
+            //alert("应该成功请求了。。。");  
+   // });
+});
+</script>
+
+
+
+
+
+
 
 </body><div></div><div></div></html>
