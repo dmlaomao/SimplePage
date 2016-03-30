@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="dmlaomao">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
-    <title>Blog Template for Bootstrap</title>
+    <title>Blog</title>
 
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -57,7 +57,7 @@
             </ul>
 
             <div id="cd-login"> <!-- 登录表单 -->
-                <form class="cd-form" action = "login" method = "get">
+                <form class="cd-form">
                     <p class="fieldset">
                         <label class="image-replace cd-username" for="signin-username">用户名</label>
                         <input class="full-width has-padding has-border" id="signin-username" type="text" placeholder="输入用户名">
@@ -71,7 +71,7 @@
                         <label for="remember-me">记住登录状态</label>
                     </p>
                     <p class="fieldset">
-                        <input class="full-width2" type="submit" value="登 录">
+                        <input class="full-width2" id = "login" type="submit" value="登 录">
                     </p>
                 </form>
 
@@ -119,7 +119,6 @@
         <div class="col-sm-8 blog-main">
 
           <div class="blog-post">
-            <button type="button">get blog</button>
             <h1 class="blog-post-title" style = "display:none;"></h1>
             <p class="blog-post-meta">Date not specified by <a href="./about.html">dmlaomao</a></p>
             <p1 style = "display:none;"></p1>
@@ -270,6 +269,25 @@ $(document).ready(function(){
 });
 </script>
 
+
+<script>
+$(document).ready(function(){
+        $("#login").click(function(){
+           $.ajax({
+                type: "GET",
+                url : "/login",
+                data:{
+                    name:$("#signin-username").val(),
+                    password:$("#signin-password").val(),
+                },
+                success: function (data) {
+                    var blogData = jQuery.parseJSON(data);
+                }
+            });
+                alert("应该成功请求了。。。");  
+        });
+});
+</script>
 
 
 
