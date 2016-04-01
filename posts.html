@@ -281,10 +281,10 @@ $(document).ready(function(){
                     password:$("#signin-password").val(),
                 },
                 success: function (data) {
-                    var blogData = jQuery.parseJSON(data);
+                    var tmp = data;
                 }
             });
-                alert("应该成功请求了。。。");  
+                alert(tmp);  
         });
 });
 </script>
