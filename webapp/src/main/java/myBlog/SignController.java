@@ -13,21 +13,23 @@ import com.google.gson.*;
 public class SignController {
 
     //private static Dao dao = new Dao();
-    //private static BlogRepository blogRepo = new BlogRepository();
     @Autowired
-    private SignRepository signRepo; 
+    private UserRepository userRepo; 
     private static Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
     @RequestMapping("/login")
     public String login(@RequestParam(value="name") String name, @RequestParam(value="password") String password ) {
         try {
-            User u = signRepo.findByName(name);
-            return "test";
+            User u = userRepo.findByName(name);
+            if (u.getPassword().equals(password)) {
+                return "登录成功!";
+            }
+            else 
+                return "密码不正确";
         }
-        catch (IllegalArgumentException e) {
-            //do something, in thinking
-
+        catch (Exception e) {
+            return "账户不存在,请注册";
         }
-        
     }
+
 }
