@@ -1,5 +1,6 @@
 package myBlog;
 
+import java.sql.Timestamp;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,4 +33,18 @@ public class SignController {
         }
     }
 
+    @RequestMapping("/register")
+    public String register(@RequestParam(value="name") String name, @RequestParam(value="password") String password, @RequestParam(value="email") String email) {
+        try {
+            User u = userRepo.findByName(name);
+            if (u.getName().equals(name))
+                return "帐号已存在"; 
+        }
+        catch (Exception e) {
+           // do nothing 
+        }
+        User u = new User(new Timestamp(System.currentTimeMillis()), name, email, password); 
+        userRepo.save(u);
+        return "注册成功!";
+    }
 }

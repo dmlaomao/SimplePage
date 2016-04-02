@@ -89,7 +89,11 @@
                     </p>
                     <p class="fieldset">
                         <label class="image-replace cd-password" for="signup-password">密码</label>
-                        <input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="输入密码">
+                        <input class="full-width has-padding has-border" id="signup-password" type="password"  placeholder="输入密码">
+                    </p>
+                    <p class="fieldset">
+                        <label class="image-replace cd-password" for="signup-password">密码</label>
+                        <input class="full-width has-padding has-border" id="signup-password2" type="password"  placeholder="请再次输入密码">
                     </p>
 
                     <p class="fieldset">
@@ -97,7 +101,7 @@
                         <label for="accept-terms">我已阅读并同意 <a href="#0">用户协议</a></label>
                     </p>
                     <p class="fieldset">
-                        <input class="full-width2" type="submit" value="注册新用户">
+                        <input class="full-width2" id = "register" type="submit" value="注册新用户">
                     </p>
                 </form>
             </div>
@@ -288,6 +292,34 @@ $(document).ready(function(){
                     }
                 }
             });
+        });
+
+        $("#register").click(function(){
+            //if two password inputs are identical
+            if ($("#signup-password").val() == $("#signup-password2").val()) {
+                //var d = new date();
+                //var rd = d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+                $.ajax({
+                    type: "POST",
+                    url : "/register",
+                    data:{
+                        name:$("#signup-username").val(),
+                        password:$("#signup-password").val(),
+                        //registerDate:rd,
+                        email:$("#signup-email").val(),
+                    },
+                    success: function (data) {
+                        var tmp = data;
+                        alert(tmp);  
+                        if (tmp == "注册成功!") {
+                            $("div.cd-user-modal").fadeOut();
+                        }
+                    }
+                });
+            }
+            else {
+                alert("两次密码不一致,请重新输入");
+            }
         });
 });
 </script>
