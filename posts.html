@@ -64,7 +64,7 @@
                     </p>
                     <p class="fieldset">
                         <label class="image-replace cd-password" for="signin-password">密码</label>
-                        <input class="full-width has-padding has-border" id="signin-password" type="text"  placeholder="输入密码">
+                        <input class="full-width has-padding has-border" id="signin-password" type="password"  placeholder="输入密码">
                     </p>
                     <p class="fieldset">
                         <input type="checkbox" id="remember-me" checked>
@@ -274,7 +274,7 @@ $(document).ready(function(){
 $(document).ready(function(){
         $("#login").click(function(){
            $.ajax({
-                type: "GET",
+                type: "POST",
                 url : "/login",
                 data:{
                     name:$("#signin-username").val(),
@@ -282,9 +282,12 @@ $(document).ready(function(){
                 },
                 success: function (data) {
                     var tmp = data;
+                    alert(tmp);  
+                    if (tmp == "登录成功!") {
+                        $("div.cd-user-modal").fadeOut();
+                    }
                 }
             });
-                alert(tmp);  
         });
 });
 </script>
