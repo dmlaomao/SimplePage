@@ -44,16 +44,16 @@
     <div class="demo">
         <nav class="main_nav">
             <ul>
-                <li><a class="cd-signin" href="#0">登录</a></li>
-                <li><a class="cd-signup" href="#0">注册</a></li>
+                <li><a class="cd-signin" >登录</a></li>
+                <li><a class="cd-signup" >注册</a></li>
             </ul>
         </nav>
     </div>
     <div class="cd-user-modal"> 
         <div class="cd-user-modal-container">
             <ul class="cd-switcher">
-                <li><a href="#0">用户登录</a></li>
-                <li><a href="#0">注册新用户</a></li>
+                <li><a href = "#0"><用户登录></a></li>
+                <li><a href = "#0"><注册新用户></a></li>
             </ul>
 
             <div id="cd-login"> <!-- 登录表单 -->
@@ -285,9 +285,13 @@ $(document).ready(function(){
                     password:$("#signin-password").val(),
                 },
                 success: function (data) {
-                    var tmp = data;
-                    alert(tmp);  
-                    if (tmp == "登录成功!") {
+                    var tmp = new Array();
+                    tmp = data.split(" ");
+                    alert(tmp[0]);  
+                    if (tmp[0] == "登录成功!") {
+                        //store token into session storage
+                        sessionStorage.token = tmp[1];
+                        sessionStorage.registerTime = tmp[2];
                         $("div.cd-user-modal").fadeOut();
                     }
                 }
@@ -309,9 +313,13 @@ $(document).ready(function(){
                         email:$("#signup-email").val(),
                     },
                     success: function (data) {
-                        var tmp = data;
-                        alert(tmp);  
+                        var tmp = new Array();
+                        tmp = data.split(" ");
+                        alert(tmp[0]);  
                         if (tmp == "注册成功!") {
+                            //store token into session storage
+                            sessionStorage.token = tmp[1];
+                            sessionStorage.registerTime = tmp[2];
                             $("div.cd-user-modal").fadeOut();
                         }
                     }
