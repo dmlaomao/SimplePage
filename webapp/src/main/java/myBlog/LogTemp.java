@@ -15,18 +15,36 @@ class LogTemp {
         }
     }
 
+    //need tokenIsValid first
     static String findByToken(String token) {
-        if (chm.containsKey(token))
-            return chm.get(token);
-        else 
-            return "#TokenNotExist";
+        return chm.get(token);
     }
 
     //name + current time + random number
     static String generateToken(String name) {
-        md.update(name.getBytes());
+        String s = name + System.currentTimeMillis() + Math.random()*1000;
+        md.update(s.getBytes());
         return byteArrayToHex(md.digest());
     }
+
+    static void saveToken(String token, String name) {
+        chm.put(token,name);
+    }
+    
+    static boolean tokenIsValid(String token, long registerTime) {
+        if (chm.containsKey(token)) {
+            long curTime = System.currentTimeMillis();
+            if (curTime - registerTime < 7200000) {
+                return true;
+            }
+            chm.remove(token);
+        }
+        return false;
+    }
+
+    
+
+
 
     private static String byteArrayToHex(byte[] byteArray) {
         char[] hexDigits = {'0','1','2','3','4','5','6','7','8','9', 'A','B','C','D','E','F' };

@@ -23,7 +23,10 @@ public class SignController {
         try {
             User u = userRepo.findByName(name);
             if (u.getPassword().equals(password)) {
-                return "登录成功!";
+                String token = LogTemp.generateToken(u.getName());
+                LogTemp.saveToken(token,u.getName());
+                //System.out.println(LogTemp.chm.get(token));
+                return "登录成功!"+" "+token+" "+System.currentTimeMillis();
             }
             else 
                 return "密码不正确";
@@ -45,6 +48,9 @@ public class SignController {
         }
         User u = new User(new Timestamp(System.currentTimeMillis()), name, email, password); 
         userRepo.save(u);
-        return "注册成功!";
+        String token = LogTemp.generateToken(u.getName());
+        LogTemp.saveToken(token,u.getName());
+        return "注册成功!"+" "+token+" "+System.currentTimeMillis();
     }
+
 }
