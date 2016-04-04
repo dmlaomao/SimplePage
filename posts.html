@@ -279,7 +279,9 @@ $(document).ready(function(){
         $("#login").click(function(){
            $.ajax({
                 type: "POST",
-                url : "/login",
+                url: "/login",
+                cache:false,
+                async:false,
                 data:{
                     name:$("#signin-username").val(),
                     password:$("#signin-password").val(),
@@ -289,11 +291,13 @@ $(document).ready(function(){
                     tmp = data.split(" ");
                     alert(tmp[0]);  
                     if (tmp[0] == "登录成功!") {
-                        //store token into session storage
                         sessionStorage.token = tmp[1];
                         sessionStorage.registerTime = tmp[2];
                         $("div.cd-user-modal").fadeOut();
                     }
+                },
+                error: function() {
+                    alert("error");
                 }
             });
         });
@@ -301,15 +305,14 @@ $(document).ready(function(){
         $("#register").click(function(){
             //if two password inputs are identical
             if ($("#signup-password").val() == $("#signup-password2").val()) {
-                //var d = new date();
-                //var rd = d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
                 $.ajax({
                     type: "POST",
-                    url : "/register",
+                    url: "/register",
+                    cache:false,
+                    async:false,
                     data:{
                         name:$("#signup-username").val(),
                         password:$("#signup-password").val(),
-                        //registerDate:rd,
                         email:$("#signup-email").val(),
                     },
                     success: function (data) {
@@ -322,6 +325,9 @@ $(document).ready(function(){
                             sessionStorage.registerTime = tmp[2];
                             $("div.cd-user-modal").fadeOut();
                         }
+                    }
+                    error: function() {
+                        alert("error");
                     }
                 });
             }
