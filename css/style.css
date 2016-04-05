@@ -179,7 +179,7 @@
   /* space left for the HIDE button */
   padding-right: 65px;
 }
-.cd-form input[type=submit] {
+.cd-form input[type=button] {
   padding: 16px 0;
   cursor: pointer;
   background: #2f889a;
@@ -192,7 +192,7 @@
   -o-appearance: none;
   appearance: none;
 }
-.no-touch .cd-form input[type=submit]:hover, .no-touch .cd-form input[type=submit]:focus {
+.no-touch .cd-form input[type=button]:hover, .no-touch .cd-form input[type=button]:focus {
   background: #3599ae;
   outline: none;
 }
@@ -214,7 +214,7 @@
   .cd-form input.has-padding {
     padding: 16px 20px 16px 50px;
   }
-  .cd-form input[type=submit] {
+  .cd-form input[type=button] {
     padding: 16px 0;
   }
 }
