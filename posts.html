@@ -31,11 +31,32 @@
     <![endif]-->
 <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/mystyle.css" />
 <script src="js/main.js"></script>
 </head>
 
 <body>
 
+
+<div class = "mycustom" style = "display:none;">
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" id = "username">
+    Dropdown
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+</div>
+<div class="dropdown">
+  <button class="btn btn-default" type="button"  >
+   发博文 
+  </button>
+</div>
+</div>
 
 
 
@@ -44,8 +65,8 @@
     <div class="demo">
         <nav class="main_nav">
             <ul>
-                <li><a class="cd-signin" >登录</a></li>
-                <li><a class="cd-signup" >注册</a></li>
+                <li><div class="cd-signin" >登录</div></li>
+                <li><div class="cd-signup" >注册</div></li>
             </ul>
         </nav>
     </div>
@@ -71,7 +92,7 @@
                         <label for="remember-me">记住登录状态</label>
                     </p>
                     <p class="fieldset">
-                        <input class="full-width2" id = "login" type="submit" value="登 录">
+                        <input class="full-width2" id = "login" type="button" value="登 录">
                     </p>
                 </form>
 
@@ -101,11 +122,10 @@
                         <label for="accept-terms">我已阅读并同意 <a href="#0">用户协议</a></label>
                     </p>
                     <p class="fieldset">
-                        <input class="full-width2" id = "register" type="submit" value="注册新用户">
+                        <input class="full-width2" id = "register" type="button" value="注册新用户">
                     </p>
                 </form>
             </div>
-            <a href="#0" class="cd-close-form">关闭</a>
         </div>
     </div> 
 </div> 
@@ -117,6 +137,7 @@
         <h class="blog-title">dmlaomao's Blog</h>
         <p class="lead blog-description">闷声发大财</p>
       </div>
+
 
       <div class="row">
 
@@ -199,7 +220,11 @@
 
         </div><!-- /.blog-main -->
 
-        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar" style = "text-align:top;">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>About</h4>
+            <p>To be or not to be.</p>
+          </div>
           <div class="sidebar-module sidebar-module-inset">
             <h4>About</h4>
             <p>To be or not to be.</p>
@@ -275,9 +300,9 @@ $(document).ready(function(){
 
 
 <script>
-$(document).ready(function(){
+//$(document).ready(function(){
         $("#login").click(function(){
-           $.ajax({
+            $.ajax({
                 type: "POST",
                 url: "/login",
                 cache:false,
@@ -291,9 +316,13 @@ $(document).ready(function(){
                     tmp = data.split(" ");
                     alert(tmp[0]);  
                     if (tmp[0] == "登录成功!") {
+                        sessionStorage.userName = $("#signin-username").val();
                         sessionStorage.token = tmp[1];
                         sessionStorage.registerTime = tmp[2];
                         $("div.cd-user-modal").fadeOut();
+                        $("#main").fadeOut();
+                        $("#username").text(sessionStorage.userName);
+                        $(".mycustom").fadeIn();
                     }
                 },
                 error: function() {
@@ -301,6 +330,7 @@ $(document).ready(function(){
                 }
             });
         });
+
 
         $("#register").click(function(){
             //if two password inputs are identical
@@ -324,8 +354,11 @@ $(document).ready(function(){
                             sessionStorage.token = tmp[1];
                             sessionStorage.registerTime = tmp[2];
                             $("div.cd-user-modal").fadeOut();
+                            $("#main").fadeOut();
+                            $("#username").text(sessionStorage.userName);
+                            $(".mycustom").fadeIn();
                         }
-                    }
+                    },
                     error: function() {
                         alert("error");
                     }
@@ -335,7 +368,7 @@ $(document).ready(function(){
                 alert("两次密码不一致,请重新输入");
             }
         });
-});
+//});
 </script>
 
 
