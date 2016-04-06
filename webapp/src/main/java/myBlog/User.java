@@ -14,16 +14,16 @@ public class User {
     @Id
     @GeneratedValue        
     private long id;
-    private Timestamp time;
+    private Timestamp registerDate;
     private String name;
     private String email;
     private String password;
 
-    protected Blog() {}
+    protected User() {}
 
-    public Blog(long id, Timestamp time,String name, String email, String password) {
-        this.id = id;
-        this.time = time;
+    public User(/*long id,*/ Timestamp registerDate,String name, String email, String password) {
+        //this.id = id;
+        this.registerDate = registerDate;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -33,19 +33,19 @@ public class User {
         return id;
     }
 
-    public Timestamp getTime() {
-        return time;
+    public Timestamp getDate() {
+        return registerDate;
     }
 
     public String getName() {
         return name;
     }
 
-    public String email() {
+    public String getEmail() {
         return email;
     }
 
-    public String password() {
+    public String getPassword() {
         return password;
     }
 }
