@@ -1,5 +1,6 @@
 package myBlog;
 
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,11 +14,13 @@ class LogTemp {
         } catch (NoSuchAlgorithmException e) {
             System.out.println(e.toString());
         }
+        Thread guard = new Thread(new GuardianMap());
+        guard.start();
     }
 
     //need tokenIsValid first
     static String findByToken(String token) {
-        return chm.get(token);
+        return chm.get(token).split(" ")[0];
     }
 
     //name + current time + random number
@@ -28,7 +31,7 @@ class LogTemp {
     }
 
     static void saveToken(String token, String name) {
-        chm.put(token,name);
+        chm.put(token,name+" "+System.currentTimeMillis());
     }
     
     static boolean tokenIsValid(String token, long registerTime) {
@@ -59,5 +62,27 @@ class LogTemp {
         return new String(resultCharArray);
     }
         
+}
+
+
+class GuardianMap implements Runnable {
+    public void run() {
+        while(true) {
+            Iterator iter = LogTemp.chm.entrySet().iterator();
+            while(iter.hasNext()) {
+                ConcurrentHashMap.Entry entry = (ConcurrentHashMap.Entry) iter.next();
+                String str = (String)entry.getValue();
+                Long time = Long.parseLong(str.split(" ")[1]);
+                if (System.currentTimeMillis() - time > 7200000)
+                    LogTemp.chm.remove(entry.getKey());
+            }
+            try {
+                //每10min执行一次检测,对chm清理
+                Thread.sleep(600000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
 
