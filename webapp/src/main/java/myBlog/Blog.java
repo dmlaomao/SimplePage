@@ -18,14 +18,16 @@ public class Blog {
     private Timestamp time;
     private String title;
     private String content;
+    private String name;
 
     protected Blog() {}
 
-    public Blog(long id, Timestamp time,String title, String content) {
-        this.id = id;
+    public Blog(/*long id,*/ Timestamp time,String title, String content, String name) {
+        //this.id = id;
         this.time = time;
         this.title = title;
         this.content = content;
+        this.name = name;
     }
 
     public long getId() {
@@ -42,6 +44,10 @@ public class Blog {
 
     public String getContent() {
         return content;
+    }
+
+    public String getName() {
+        return name;
     }
 
 }
