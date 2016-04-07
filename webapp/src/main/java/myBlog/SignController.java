@@ -14,9 +14,10 @@ import com.google.gson.*;
 public class SignController {
 
     //private static Dao dao = new Dao();
+    //private static Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+
     @Autowired
     private UserRepository userRepo; 
-    private static Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
     @RequestMapping("/login")
     public String login(@RequestParam(value="name") String name, @RequestParam(value="password") String password ) {
@@ -53,4 +54,10 @@ public class SignController {
         return "注册成功!"+" "+token+" "+System.currentTimeMillis();
     }
 
+    @RequestMapping("/tokenvalid")
+    public String register(@RequestParam(value="token") String token) {
+        if (LogTemp.tokenIsValid(token, System.currentTimeMillis()))
+            return "true";
+        return "false";
+    }
 }
