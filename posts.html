@@ -52,7 +52,7 @@
   </ul>
 </div>
 <div class="dropdown">
-  <button class="btn btn-default" type="button" onclick = "showdiv();" >
+  <button class="btn btn-default" type="button" id = "postbutton" >
    发博文 
   </button>
 </div>
@@ -79,7 +79,7 @@ function hidediv() {
     <textarea class="form-control" rows="25" placeholder="我是正文" id = "blogcontent"></textarea>
     <button type="submit" class="btn btn-info" id = "postblog" style = "relative:right">提交博文</button>
 </form>
-<input class = "btn btn-warning" id="btnclose" type="button" value="放弃提交" style = "positon:relative;float:right" onclick="hidediv();">
+<input class = "btn btn-warning" id="btnclose" type="button" value="放弃提交" style = "positon:relative;float:right" onclick = "hidediv();">
 </div>
   
 
@@ -397,8 +397,34 @@ $(document).ready(function(){
 </script>
 
 <script>
+        $("#postbutton").click(function(){
+                $.ajax({
+                    type: "POST",
+                    url: "/tokenvalid",
+                    cache:false,
+                    async:false,
+                    data:{
+                        token:sessionStorage.getItem("token"),
+                    },
+                    success: function (data) {
+                        if (data == "false") {
+                            alert("登录信息过期，请重新登录");
+                            $(".mycustom").fadeOut();
+                            $("#main").fadeIn();
+                            $("div.cd-user-modal").fadeIn();
+                        }
+                        else 
+                            showdiv();
+                    },
+                    error: function() {
+                        alert("error");
+                    }
+                });
+        });
+</script>
+
+<script>
         $("#postblog").click(function(){
-                alert("sb again");
             if ($.trim($("#blogtitle").val()) == '')
                 alert("标题不能为空")
             else if ($.trim($("#blogcontent").val()) == '')
@@ -416,7 +442,14 @@ $(document).ready(function(){
                         token:sessionStorage.getItem("token"),
                     },
                     success: function (data) {
-                        $(".mycustom").fadeIn();
+                        if (data == "true")
+                            hidediv();
+                        else {
+                            alert("登录信息过期，请重新登录");
+                            $(".mycustom").fadeOut();
+                            $("#main").fadeIn();
+                            $("div.cd-user-modal").fadeIn();
+                        }
                     },
                     error: function() {
                         alert("error");
@@ -425,7 +458,6 @@ $(document).ready(function(){
             }
         });
 </script>
-
 
 
 
