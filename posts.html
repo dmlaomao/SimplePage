@@ -52,15 +52,45 @@
   </ul>
 </div>
 <div class="dropdown">
-  <button class="btn btn-default" type="button"  >
+  <button class="btn btn-default" type="button" onclick = "showdiv();" >
    发博文 
   </button>
 </div>
 </div>
 
 
-
+<script language="javascript" type="text/javascript">
+function showdiv() {            
+            document.getElementById("bg").style.display ="block";
+            document.getElementById("show").style.display ="block";
+        }
+function hidediv() {
+            document.getElementById("bg").style.display ='none';
+            document.getElementById("show").style.display ='none';
+        }
+</script>
+<style type="text/css">
+        #bg{ display: none;  position: fixed;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: black;  z-index:1001;  -moz-opacity: 0.7;  opacity:.70;  filter: alpha(opacity=70);}
+        #show{display: none;  position: fixed;  top: 10%;  left: 22%;  width: 53%;  height: 80%;  padding: 8px;  border: 8px solid #E8E9F7;  background-color: white;  z-index:1002;  overflow: auto;}
+</style>
+<div id="bg"></div>
+<div id="show">
+<form class="navbar-form " role="postblog" >
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="title">
+  </div>
+  <div class="form-group">
+    <textarea class="form-control" rows="20"></textarea>
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+<input id="btnclose" type="button" value="Close" onclick="hidediv();">
+</div>
   
+
+
+
+
 <div id="main">
     <div class="demo">
         <nav class="main_nav">
