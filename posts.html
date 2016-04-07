@@ -75,16 +75,11 @@ function hidediv() {
 </style>
 <div id="bg"></div>
 <div id="show">
-<form class="navbar-form " role="postblog" >
-  <div class="form-group">
-    <input type="text" class="form-control" placeholder="title">
-  </div>
-  <div class="form-group">
-    <textarea class="form-control" rows="20"></textarea>
-  </div>
-  <button type="submit" class="btn btn-default">Submit</button>
+    <textarea class="form-control" rows="1" placeholder="我是标题" id = "blogtitle"></textarea>
+    <textarea class="form-control" rows="25" placeholder="我是正文" id = "blogcontent"></textarea>
+    <button type="submit" class="btn btn-info" id = "postblog" style = "relative:right">提交博文</button>
 </form>
-<input id="btnclose" type="button" value="Close" onclick="hidediv();">
+<input class = "btn btn-warning" id="btnclose" type="button" value="放弃提交" style = "positon:relative;float:right" onclick="hidediv();">
 </div>
   
 
@@ -401,6 +396,35 @@ $(document).ready(function(){
 //});
 </script>
 
+<script>
+        $("#postblog").click(function(){
+                alert("sb again");
+            if ($.trim($("#blogtitle").val()) == '')
+                alert("标题不能为空")
+            else if ($.trim($("#blogcontent").val()) == '')
+                alert("内容不能为空")
+            else { 
+                $.ajax({
+                    type: "POST",
+                    url: "/postblog",
+                    cache:false,
+                    async:false,
+                    data:{
+                        title:$("#blogtitle").val(),
+                        content:$("#blogcontent").val(),
+                        //can not use session storage name for safety reasons
+                        token:sessionStorage.getItem("token"),
+                    },
+                    success: function (data) {
+                        $(".mycustom").fadeIn();
+                    },
+                    error: function() {
+                        alert("error");
+                    }
+                });
+            }
+        });
+</script>
 
 
 
