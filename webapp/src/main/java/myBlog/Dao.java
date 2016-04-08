@@ -11,6 +11,7 @@ import java.sql.SQLException;
 
 class Dao {
     
+    /*
     //private final String = "../../../../blogs/blogs";
 
     // to DB
@@ -23,4 +24,5 @@ class Dao {
         //for test only
         return new Blog(1,"i'm titil", "i'm content");
     }
+    */
 }
