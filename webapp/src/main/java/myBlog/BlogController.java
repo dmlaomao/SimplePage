@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import com.google.gson.*;
 
 @RestController
@@ -21,8 +25,10 @@ public class BlogController {
     private BlogRepository blogRepo; 
 
     @RequestMapping("/blog")
-    public String blog(@RequestParam(value="ID", defaultValue = "1") long id) {
-        return gson.toJson(blogRepo.findByid(id));
+    public String blog(@RequestParam(value="page", defaultValue = "0") int pageNum) {
+        //the page infomation is lost here
+        //only the content is returned
+        return gson.toJson(blogRepo.findAll(new PageRequest(pageNum,10,new Sort(new Sort.Order(Direction.DESC,"time")))).getContent());
         //return gson.toJson(BlogRepository.findByid(id));
     }
 
