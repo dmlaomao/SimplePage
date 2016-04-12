@@ -299,11 +299,12 @@ $(document).ready(function(){
                         var t3 = "<p class=\"blog-post-meta\">" + obj.time + " by <a href=\"./about.html\" >" + obj.name + "</a></p>";
                         var content = obj.content.replace(/\n/g,"<br>");
                         var condis = content.substr(0,100);
-                        var conhid = content.substr(101);
+                        var conhid = content.substr(100);
                         var t4 = "<p class =\"curcon\">" + condis + "</p>";
                         var t5 = "<p class =\"hidcon\" style = \"display:none\">" + conhid + "</p></div>";
                         $("#jspostblog").append(t1,t2,t3,t4,t5);
                     });
+                    $("body").animate({scrollTop:0}, "slow"); 
                 }
             });
 });
@@ -336,7 +337,7 @@ $(document).ready(function(){
                         var t3 = "<p class=\"blog-post-meta\">" + obj.time + " by <a href=\"./about.html\" >" + obj.name + "</a></p>";
                         var content = obj.content.replace(/\n/g,"<br>");
                         var condis = content.substr(0,100);
-                        var conhid = content.substr(101);
+                        var conhid = content.substr(100);
                         var t4 = "<p class =\"curcon\">" + condis + "</p>";
                         var t5 = "<p class =\"hidcon\" style = \"display:none\">" + conhid + "</p></div>";
                         $("#jspostblog").append(t1,t2,t3,t4,t5);
@@ -350,14 +351,6 @@ $(document).ready(function(){
 </script>
 
 
-<script>
-//onclick show contents
-    $(document).ready(function(){
-        $(".curcon").click(function(){
-                $(this).next().slideToggle();
-        })
-    })
-</script>
 
 
 
@@ -497,6 +490,14 @@ $(document).ready(function(){
 </script>
 
 
+<script>
+//onclick show contents
+    $(document).ready(function(){
+        $("#jspostblog").delegate(".curcon","click",function(){
+                $(this).next().slideToggle();
+        })
+    })
+</script>
 
 
 </body><div></div><div></div></html>
