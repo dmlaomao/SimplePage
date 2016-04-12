@@ -187,12 +187,11 @@ function hidediv() {
 -->
 
 
-          <nav>
-            <ul class="pager">
-              <li><a href="./posts_files/posts.html">Previous</a></li>
-              <li><a href="./posts_files/posts.html">Next</a></li>
-            </ul>
-          </nav>
+<nav>
+  <ul class="pagination pagination-lg" id = "pagenumber">
+  </ul>
+</nav>
+
 
         </div><!-- /.blog-main -->
 
@@ -246,17 +245,40 @@ function hidediv() {
   
 
 
-          <div class="blog-post">
-            <h1 class="blog-post-title" style = "display:none;"></h1>
-            <p class="blog-post-meta"> <p> by </p><a href="./about.html"></a></p>
-            <p1 style = "display:none;"></p1>
-          </div>
+
+<script>
+//for paganation
+$(document).ready(function(){
+           $.ajax({
+                type: "POST",
+                url : "/getPageNum",
+                cache:false,
+                async:false,
+                data:{
+                },
+                success: function (data) {
+                    var num = data;
+                    var i = 1;
+                    var t1 = "<li><a aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span></a></li>";
+                    $("#pagenumber").append(t1);
+                    while(i < num+1) {
+                        var tmp = "<li" + " id = \"" + i + "\"><a class = \"pagecla\" value = \"" + i + "\""+ "\">"+i+"</a></li>";
+                        i++;
+                        $("#pagenumber").append(tmp);
+                    }
+                    var t2 = "<li><a  aria-label=\"Next\"> <span aria-hidden=\"true\">&raquo;</span></a></li>";
+                    $("#pagenumber").append(t2);
+                }
+            });
+});
+</script>
+
 
 
 
 <script>
+//load the first page by default 
 $(document).ready(function(){
-        //$("button").click(function(){
            $.ajax({
                 type: "POST",
                 url : "/blog",
@@ -264,18 +286,56 @@ $(document).ready(function(){
                     page:"0"
                 },
                 success: function (data) {
+                    $(".active").attr("class","");
+                    $("#1").attr("class","active");
                     var blogData = data;
+                    //remove the current page to append the new one
+                    $("#jspostblog").empty();
                     $.each($.parseJSON(blogData), function(idx, obj) {
                         var t1 = "<div class=\"blog-post\">";
                         var t2 = "<h class=\"blog-post-title\">" + obj.title + "</h>";
                         var t3 = "<p class=\"blog-post-meta\">" + obj.time + " by <a href=\"./about.html\" >" + obj.name + "</a></p>";
-                        var t4 = "<p>" + obj.content.replace(/\n/g,"<br>") + "</p></div>";
-                        $("#jspostblog").append(t1,t2,t3,t4).fadeIn("slow");
+                        var t4 = "<p style = \"display:none\">" + obj.content.replace(/\n/g,"<br>") + "</p></div>";
+                        $("#jspostblog").append(t1,t2,t3).fadeIn("slow");
                     });
                 }
             });
-            //alert("应该成功请求了。。。");  
-   // });
+});
+</script>
+
+
+<script>
+//load the required page 
+$(document).ready(function(){
+    $("a.pagecla").click(function(){
+        $(".active").attr("class","");
+        $(this).parent().attr("class","active");
+        var num = $(this).attr("value")-1;
+           $.ajax({
+                type: "POST",
+                url : "/blog",
+                cache:false,
+                async:false,
+                data:{
+                    page:num
+                },
+                success: function (data) {
+                    var blogData = data;
+                    //remove the current page to append the new one
+                    $("#jspostblog").empty();
+                    //add the new one
+                    $.each($.parseJSON(blogData), function(idx, obj) {
+                        var t1 = "<div class=\"blog-post\">";
+                        var t2 = "<h class=\"blog-post-title\">" + obj.title + "</h>";
+                        var t3 = "<p class=\"blog-post-meta\">" + obj.time + " by <a href=\"./about.html\" >" + obj.name + "</a></p>";
+                        var t4 = "<p style = \"display:none\">" + obj.content.replace(/\n/g,"<br>") + "</p></div>";
+                        $("#jspostblog").append(t1,t2,t3,t4).fadeIn("slow");
+                    });
+                    //back to top
+                    $("body").animate({scrollTop:0}, "slow"); 
+                }
+            });
+    })
 });
 </script>
 
