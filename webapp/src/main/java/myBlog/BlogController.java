@@ -24,6 +24,12 @@ public class BlogController {
     @Autowired
     private BlogRepository blogRepo; 
 
+    @RequestMapping("/getPageNum")
+    public int blog() {
+        //return the total number of pages for pagantion
+        return blogRepo.findAll(new PageRequest(0,10)).getTotalPages();
+    }
+
     @RequestMapping("/blog")
     public String blog(@RequestParam(value="page", defaultValue = "0") int pageNum) {
         //the page infomation is lost here
