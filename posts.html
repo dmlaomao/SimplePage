@@ -162,7 +162,7 @@ function hidediv() {
 
       <div class="blog-header">
         <h class="blog-title">dmlaomao's Blog</h>
-        <p class="lead blog-description">闷声发大财</p>
+        <p class="lead blog-description">发展才是硬道理</p>
       </div>
 
 
@@ -275,10 +275,9 @@ $(document).ready(function(){
 
 
 
-
 <script>
 //load the first page by default 
-$(document).ready(function(){
+function loadDefaultPage(){
            $.ajax({
                 type: "POST",
                 url : "/blog",
@@ -301,14 +300,23 @@ $(document).ready(function(){
                         var content = obj.content.replace(/\n/g,"<br>");
                         var condis = content.substr(0,100);
                         var conhid = content.substr(100);
-                        var t4 = "<p class =\"curcon\">" + condis + "</p>";
-                        var t5 = "<p class =\"hidcon\" style = \"display:none\">" + conhid + "</p></div>";
-                        $("#jspostblog").append(t1,t2,t3,t4,t5);
+                        var t4 = "<p>" + condis + "</p>";
+                        if (conhid != "") {
+                            var t5 = "<p class =\"hidcon\" style = \"display:none\">" + conhid + "</p></div>";
+                            var t6 = "<p class =\"curcon\" style = \"color:#0000FF\">>>></p>";
+                            $("#jspostblog").append(t1,t2,t3,t4,t5,t6);
+                        }
+                        else
+                            $("#jspostblog").append(t1,t2,t3,t4);
                     });
                     $("body").animate({scrollTop:0}, "slow"); 
                 }
             });
-});
+};
+</script>
+
+<script>
+$(document).ready(loadDefaultPage());
 </script>
 
 
@@ -340,8 +348,13 @@ $(document).ready(function(){
                         var condis = content.substr(0,100);
                         var conhid = content.substr(100);
                         var t4 = "<p class =\"curcon\">" + condis + "</p>";
-                        var t5 = "<p class =\"hidcon\" style = \"display:none\">" + conhid + "</p></div>";
-                        $("#jspostblog").append(t1,t2,t3,t4,t5);
+                        if (conhid != "") {
+                            var t5 = "<p class =\"hidcon\" style = \"display:none\">" + conhid + "</p></div>";
+                            var t6 = "<p class =\"curcon\" style = \"color:#0000FF\">>>></p>";
+                            $("#jspostblog").append(t1,t2,t3,t4,t5,t6);
+                        }
+                        else
+                            $("#jspostblog").append(t1,t2,t3,t4);
                     });
                     //back to top
                     $("body").animate({scrollTop:0}, "slow"); 
@@ -444,8 +457,9 @@ $(document).ready(function(){
                             $("#main").fadeIn();
                             $("div.cd-user-modal").fadeIn();
                         }
-                        else 
+                        else {
                             showdiv();
+                        }
                     },
                     error: function() {
                         alert("error");
@@ -473,8 +487,10 @@ $(document).ready(function(){
                         token:sessionStorage.getItem("token"),
                     },
                     success: function (data) {
-                        if (data == "true")
+                        if (data == "true") {
                             hidediv();
+                            loadDefaultPage();
+                        }
                         else {
                             alert("登录信息过期，请重新登录");
                             $(".mycustom").fadeOut();
@@ -495,7 +511,7 @@ $(document).ready(function(){
 //onclick show contents
     $(document).ready(function(){
         $("#jspostblog").delegate(".curcon","click",function(){
-                $(this).next().slideToggle();
+                $(this).prev().slideToggle();
         })
     })
 </script>
