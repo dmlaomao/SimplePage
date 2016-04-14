@@ -172,21 +172,6 @@ function hidediv() {
             <div id = "jspostblog"></div>
 
 
-<!--
-          <div class="blog-post">
-            <h2 class="blog-post-title">New feature</h2>
-            <p class="blog-post-meta">December 14, 2013 by <a href="./posts_files/posts.html">Chris</a></p>
-
-            <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <ul>
-              <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-              <li>Donec id elit non mi porta gravida at eget metus.</li>
-              <li>Nulla vitae elit libero, a pharetra augue.</li>
-            </ul>
-            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-            <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-          </div>
--->
 
 
 <nav>
@@ -212,7 +197,6 @@ function hidediv() {
               <li><a href="./posts_files/posts.html">November 2013</a></li>
               <li><a href="./posts_files/posts.html">October 2013</a></li>
               <li><a href="./posts_files/posts.html">September 2013</a></li>
-              <li><a href="./posts_files/posts.html">August 2013</a></li>
             </ol>
           </div>
           <div class="sidebar-module">
@@ -314,6 +298,35 @@ function loadDefaultPage(){
             });
 };
 </script>
+
+<script>
+//load Comment 
+/*
+function loadComment(id){
+           $.ajax({
+                type: "POST",
+                url : "/getComment",
+                cache:false,
+                async:false,
+                data:{
+                    blogid: id
+                },
+                success: function (data) {
+                    var front = "<div class = \"well\"><ul>";
+                    var middle;
+                    $.each($.parseJSON(data), function(idx, obj) {
+                        var t1 = "<p>" + obj.content.replace(/\n/g,"<br>")+ "</p>";
+                        var t2 = "<p align = \"right\"> posted by <a href=\"./about.html\">" + obj.name + "</a> at " + obj.time  "</p>";
+                        middle += (t1+t2);
+                    }
+                    var end = "</ul></div>";
+                    return data;
+                }
+            });
+};
+*/
+</script>
+
 
 <script>
 $(document).ready(loadDefaultPage());
@@ -418,8 +431,9 @@ $(document).ready(function(){
                         var tmp = new Array();
                         tmp = data.split(" ");
                         alert(tmp[0]);  
-                        if (tmp == "注册成功!") {
+                        if (tmp[0] == "注册成功!") {
                             //store token into session storage
+                            sessionStorage.userName = $("#signup-username").val();
                             sessionStorage.token = tmp[1];
                             sessionStorage.registerTime = tmp[2];
                             $("div.cd-user-modal").fadeOut();
