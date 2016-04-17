@@ -26,7 +26,7 @@ public class CommentController {
 
     @RequestMapping("/saveComment")
     public void register(@RequestParam(value="content") String content, @RequestParam(value="name") String name, @RequestParam(value="blogid") int id) {
-        Comment c = new Comment(new Timestamp(System.currentTimeMillis()), content, name, blogid); 
+        Comment c = new Comment(new Timestamp(System.currentTimeMillis()), content, name, id); 
         commentRepo.save(c);
     }
 
