@@ -20,9 +20,9 @@ public class Comment {
     private String name;
     private int blogid;
 
-    protected Blog() {}
+    protected Comment() {}
 
-    public Blog(/*long id,*/ Timestamp time,String content, String name, int blogid) {
+    public Comment(/*long id,*/ Timestamp time,String content, String name, int blogid) {
         //this.id = id;
         this.time = time;
         this.content = content;
