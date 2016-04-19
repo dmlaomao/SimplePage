@@ -161,7 +161,7 @@ function hidediv() {
     <div class="container">
 
       <div class="blog-header">
-        <h class="blog-title">dmlaomao's Blog</h>
+        <h class="blog-title">郭铮的Blog</h>
         <p class="lead blog-description">发展才是硬道理</p>
       </div>
 
@@ -174,11 +174,10 @@ function hidediv() {
 
 
 
-<nav>
-  <ul class="pagination pagination-lg" id = "pagenumber">
-  </ul>
-</nav>
-
+                <nav>
+                    <ul class="pagination pagination-lg" id = "pagenumber">
+                    </ul>
+                </nav>
 
         </div><!-- /.blog-main -->
 
@@ -230,6 +229,123 @@ function hidediv() {
 
 
 
+
+
+<script>
+//load Comment 
+function loadComment(id){
+           $.ajax({
+                type: "POST",
+                url : "/getComment",
+                cache:false,
+                async:false,
+                data:{
+                    blogid: id
+                },
+                success: function (data) {
+                    return data;
+                }
+            });
+};
+</script>
+
+<script>
+//function of loading the required page  
+function loadPage(num){
+           $.ajax({
+                type: "POST",
+                url : "/blog",
+                cache:false,
+                async:false,
+                data:{
+                    page:num
+                },
+                success: function (data) {
+                    $(".active").attr("class","");
+                    $("#"+(num+1)).attr("class","active");
+                    var blogData = data;
+                    //remove the current page to append the new one
+                    $("#jspostblog").empty();
+                    $.each($.parseJSON(blogData), function(idx, obj) {
+                        var t1 = "<div class=\"blog-post\">";
+                        //add id number as the id attr, for comments
+                        var t2 = "<h class=\"blog-post-title\">" + obj.title + "</h>";
+                        var t3 = "<p class=\"blog-post-meta\">" + obj.time + " by <a href=\"./about.html\" >" + obj.name + "</a></p>";
+                        var content = obj.content.replace(/\n/g,"<br>");
+                        var condis = content.substr(0,100);
+                        var conhid = content.substr(100);
+                        var t4 = "<p4>" + condis + "</p>";
+
+                        if (conhid != "") {
+                            var commblock = "<div class = \"well\" style = \"display:none\">"; 
+                            var t5 = "<p class =\"hidcon\" style = \"display:none\">" + conhid + "</p></div>";
+                            //add comment here berfore >>>
+                            $.ajax({
+                                type: "POST",
+                                url : "/getComment",
+                                cache:false,
+                                async:false,
+                                data:{
+                                    blogid:obj.id
+                                },
+                                success: function (comment) {
+                                    if (comment != "[]") {
+                                        mark = true;
+                                        $.each($.parseJSON(comment), function(idx, obj) {
+                                            commblock += ("<div style = \"color:#AFAF61\"> By <a href=\"./about.html\" >" + obj.name + "</a> at " + obj.time + "</div>");
+                                            commblock += ("<p>" + obj.content + "</p>");
+                                        });
+                                    }
+                                }
+                            });
+                            //add write comment 
+                            commblock += "<div class=\"input-group\">";
+                            commblock += "<input type=\"text\" class=\"form-control\" placeholder=\"写下评论...\">";
+                            commblock += "<span class=\"input-group-btn\">";
+                            commblock += "<button class=\"btn btn-default\" type=\"button\">提交</button>";
+                            commblock += "</span></div>";
+                            commblock += "</div>";
+                            var t6 = "<p class =\"curcon\" style = \"color:#0000FF\">>>></p>";
+                            $("#jspostblog").append(t1,t2,t3,t4,t5,commblock,t6);
+                        }
+                        else {
+                            //add comment here directly 
+                            var commblock = "<div class = \"well\">"; 
+                            commblock += "<div class=\"input-group\">";
+                            commblock += "<input type=\"text\" class=\"form-control\" placeholder=\"写下评论...\">";
+                            commblock += "<span class=\"input-group-btn\">";
+                            commblock += "<button class=\"btn btn-default\" type=\"button\">提交</button>";
+                            commblock += "</span></div>";
+                            commblock += "</div>";
+                            $("#jspostblog").append(t1,t2,t3,t4,commblock);
+                        }
+                    });
+                    $("body").animate({scrollTop:0}, "slow"); 
+                }
+            });
+};
+</script>
+
+
+
+<script>
+//load the default page 
+$(document).ready(loadPage(0));
+</script>
+
+<script>
+//load the required page 
+$(document).ready(function(){
+    $("a.pagecla").click(function(){
+        $(".active").attr("class","");
+        $(this).parent().attr("class","active");
+        var num = $(this).attr("value")-1;
+        loadPage(num);
+    })
+});
+</script>
+
+
 <script>
 //for paganation
 $(document).ready(function(){
@@ -256,127 +372,6 @@ $(document).ready(function(){
             });
 });
 </script>
-
-
-
-<script>
-//load the first page by default 
-function loadDefaultPage(){
-           $.ajax({
-                type: "POST",
-                url : "/blog",
-                cache:false,
-                async:false,
-                data:{
-                    page:"0"
-                },
-                success: function (data) {
-                    $(".active").attr("class","");
-                    $("#1").attr("class","active");
-                    var blogData = data;
-                    //remove the current page to append the new one
-                    $("#jspostblog").empty();
-                    $.each($.parseJSON(blogData), function(idx, obj) {
-                        var t1 = "<div class=\"blog-post\">";
-                        //add id number as the id attr, for comments
-                        var t2 = "<h class=\"blog-post-title\">" + obj.title + "</h>";
-                        var t3 = "<p class=\"blog-post-meta\">" + obj.time + " by <a href=\"./about.html\" >" + obj.name + "</a></p>";
-                        var content = obj.content.replace(/\n/g,"<br>");
-                        var condis = content.substr(0,100);
-                        var conhid = content.substr(100);
-                        var t4 = "<p>" + condis + "</p>";
-                        if (conhid != "") {
-                            var t5 = "<p class =\"hidcon\" style = \"display:none\">" + conhid + "</p></div>";
-                            var t6 = "<p class =\"curcon\" style = \"color:#0000FF\">>>></p>";
-                            $("#jspostblog").append(t1,t2,t3,t4,t5,t6);
-                        }
-                        else
-                            $("#jspostblog").append(t1,t2,t3,t4);
-                    });
-                    $("body").animate({scrollTop:0}, "slow"); 
-                }
-            });
-};
-</script>
-
-<script>
-//load Comment 
-/*
-function loadComment(id){
-           $.ajax({
-                type: "POST",
-                url : "/getComment",
-                cache:false,
-                async:false,
-                data:{
-                    blogid: id
-                },
-                success: function (data) {
-                    var front = "<div class = \"well\"><ul>";
-                    var middle;
-                    $.each($.parseJSON(data), function(idx, obj) {
-                        var t1 = "<p>" + obj.content.replace(/\n/g,"<br>")+ "</p>";
-                        var t2 = "<p align = \"right\"> posted by <a href=\"./about.html\">" + obj.name + "</a> at " + obj.time  "</p>";
-                        middle += (t1+t2);
-                    }
-                    var end = "</ul></div>";
-                    return data;
-                }
-            });
-};
-*/
-</script>
-
-
-<script>
-$(document).ready(loadDefaultPage());
-</script>
-
-
-<script>
-//load the required page 
-$(document).ready(function(){
-    $("a.pagecla").click(function(){
-        $(".active").attr("class","");
-        $(this).parent().attr("class","active");
-        var num = $(this).attr("value")-1;
-           $.ajax({
-                type: "POST",
-                url : "/blog",
-                cache:false,
-                async:false,
-                data:{
-                    page:num
-                },
-                success: function (data) {
-                    var blogData = data;
-                    //remove the current page to append the new one
-                    $("#jspostblog").empty();
-                    //add the new one
-                    $.each($.parseJSON(blogData), function(idx, obj) {
-                        var t1 = "<div class=\"blog-post\">";
-                        var t2 = "<h class=\"blog-post-title\">" + obj.title + "</h>";
-                        var t3 = "<p class=\"blog-post-meta\">" + obj.time + " by <a href=\"./about.html\" >" + obj.name + "</a></p>";
-                        var content = obj.content.replace(/\n/g,"<br>");
-                        var condis = content.substr(0,100);
-                        var conhid = content.substr(100);
-                        var t4 = "<p class =\"curcon\">" + condis + "</p>";
-                        if (conhid != "") {
-                            var t5 = "<p class =\"hidcon\" style = \"display:none\">" + conhid + "</p></div>";
-                            var t6 = "<p class =\"curcon\" style = \"color:#0000FF\">>>></p>";
-                            $("#jspostblog").append(t1,t2,t3,t4,t5,t6);
-                        }
-                        else
-                            $("#jspostblog").append(t1,t2,t3,t4);
-                    });
-                    //back to top
-                    $("body").animate({scrollTop:0}, "slow"); 
-                }
-            });
-    })
-});
-</script>
-
 
 
 
@@ -455,6 +450,7 @@ $(document).ready(function(){
 </script>
 
 <script>
+//check before post
         $("#postbutton").click(function(){
                 $.ajax({
                     type: "POST",
@@ -503,7 +499,7 @@ $(document).ready(function(){
                     success: function (data) {
                         if (data == "true") {
                             hidediv();
-                            loadDefaultPage();
+                            loadPage(0);
                         }
                         else {
                             alert("登录信息过期，请重新登录");
@@ -521,11 +517,12 @@ $(document).ready(function(){
 </script>
 
 
+
 <script>
-//onclick show contents
+//onclick show contents and load 
     $(document).ready(function(){
         $("#jspostblog").delegate(".curcon","click",function(){
-                $(this).prev().slideToggle();
+                $(this).prevUntil("p4").slideToggle();
         })
     })
 </script>
