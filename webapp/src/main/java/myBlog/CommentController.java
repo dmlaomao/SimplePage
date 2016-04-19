@@ -25,9 +25,14 @@ public class CommentController {
     }
 
     @RequestMapping("/saveComment")
-    public void register(@RequestParam(value="content") String content, @RequestParam(value="name") String name, @RequestParam(value="blogid") int id) {
-        Comment c = new Comment(new Timestamp(System.currentTimeMillis()), content, name, id); 
-        commentRepo.save(c);
+    public String register(@RequestParam(value="content") String content, @RequestParam(value="token") String token, @RequestParam(value="blogid") int id) {
+        try {
+            Comment c = new Comment(new Timestamp(System.currentTimeMillis()), content, LogTemp.findByToken(token), id); 
+            commentRepo.save(c);
+        } catch (Exception e) {
+            return "false";
+        }
+        return "true";
     }
 
 }
