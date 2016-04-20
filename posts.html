@@ -302,7 +302,7 @@ function loadPage(num){
                             commblock += "<div class=\"input-group\">";
                             commblock += "<input type=\"text\" class=\"form-control\" placeholder=\"写下评论...\">";
                             commblock += "<span class=\"input-group-btn\">";
-                            commblock += "<button class=\"btn btn-default\" type=\"button\" value = \"" + obj.id + "\">提交</button>";
+                            commblock += "<button class=\"commentbutton btn btn-default\" type=\"button\" value = \"" + obj.id + "\">提交</button>";
                             commblock += "</span></div>";
                             commblock += "</div>";
                             var t6 = "<p class =\"curcon\" style = \"color:#0000FF\">>>></p>";
@@ -453,7 +453,7 @@ $(document).ready(function(){
 
 <script>
 //check the login validation
-function checkValidation() {
+function checkValidation(show) {
                 $.ajax({
                     type: "POST",
                     url: "/tokenvalid",
@@ -470,7 +470,8 @@ function checkValidation() {
                             $("div.cd-user-modal").fadeIn();
                         }
                         else {
-                            showdiv();
+                            if (show)
+                                showdiv();
                         }
                     },
                     error: function() {
@@ -483,7 +484,8 @@ function checkValidation() {
 <script>
 //check before post
         $("#postbutton").click(function(){
-                checkValidation();
+                var mark = true;
+                checkValidation(mark);
         });
 </script>
 
@@ -539,8 +541,9 @@ function checkValidation() {
 <script>
     $(document).ready(function(){
         //onclick submit comment 
-        $("#jspostblog").delegate("button","click",function(){
-                checkValidation();
+        $("#jspostblog").delegate(".commentbutton","click",function(){
+                var mark = false;
+                checkValidation(mark);
 
                 var content = $(this).parent().prev().val();
                 var blogid = $(this).attr("value");
