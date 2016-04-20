@@ -510,6 +510,7 @@ function checkValidation(show) {
                     success: function (data) {
                         if (data == "true") {
                             hidediv();
+                            alert("发布成功");
                             loadPage(0);
                         }
                         else {
@@ -561,6 +562,8 @@ function checkValidation(show) {
                     success: function (data) {
                         if (data == "false")
                             alert("登录信息过期，请重新登录");
+                        else 
+                            alert("评论成功");
                     },
                     error: function() {
                         alert("error");
