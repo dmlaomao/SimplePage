@@ -276,47 +276,43 @@ function loadPage(num){
                         var conhid = content.substr(100);
                         var t4 = "<p4>" + condis + "</p>";
 
-                        if (conhid != "") {
-                            var commblock = "<div class = \"well\" style = \"display:none\">"; 
-                            var t5 = "<p class =\"hidcon\" style = \"display:none\">" + conhid + "</p></div>";
-                            //add comment here berfore >>>
-                            $.ajax({
-                                type: "POST",
-                                url : "/getComment",
-                                cache:false,
-                                async:false,
-                                data:{
-                                    blogid:obj.id
-                                },
-                                success: function (comment) {
-                                    if (comment != "[]") {
-                                        mark = true;
-                                        $.each($.parseJSON(comment), function(idx, obj) {
-                                            commblock += ("<div style = \"color:#AFAF61\"> By <a href=\"./about.html\" >" + obj.name + "</a> at " + obj.time + "</div>");
-                                            commblock += ("<p>" + obj.content + "</p>");
-                                        });
-                                    }
+                        var commblock = "";
+                        //add comment here berfore 
+                        $.ajax({
+                            type: "POST",
+                            url : "/getComment",
+                            cache:false,
+                            async:false,
+                            data:{
+                                blogid:obj.id
+                            },
+                            success: function (comment) {
+                                if (comment != "[]") {
+                                    $.each($.parseJSON(comment), function(idx, obj) {
+                                        commblock += ("<div style = \"color:#AFAF61\"> By <a href=\"./about.html\" >" + obj.name + "</a> at " + obj.time + "</div>");
+                                        commblock += ("<p>" + obj.content + "</p>");
+                                    });
                                 }
-                            });
-                            //add write comment 
-                            commblock += "<div class=\"input-group\">";
-                            commblock += "<input type=\"text\" class=\"form-control\" placeholder=\"写下评论...\">";
-                            commblock += "<span class=\"input-group-btn\">";
-                            commblock += "<button class=\"commentbutton btn btn-default\" type=\"button\" value = \"" + obj.id + "\">提交</button>";
-                            commblock += "</span></div>";
-                            commblock += "</div>";
+                            }
+                        });
+                        //add write comment 
+                        commblock += "<div class=\"input-group\">";
+                        commblock += "<input type=\"text\" class=\"form-control\" placeholder=\"写下评论...\">";
+                        commblock += "<span class=\"input-group-btn\">";
+                        commblock += "<button class=\"commentbutton btn btn-default\" type=\"button\" value = \"" + obj.id + "\">提交</button>";
+                        commblock += "</span></div>";
+                        commblock += "</div>";
+
+                        if (conhid != "") {
+                            var commblockpre = "<div class = \"well\" style = \"display:none\">"; 
+                            var commblock = commblockpre + commblock; 
+                            var t5 = "<p class =\"hidcon\" style = \"display:none\">" + conhid + "</p></div>";
                             var t6 = "<p class =\"curcon\" style = \"color:#0000FF\">>>></p>";
                             $("#jspostblog").append(t1,t2,t3,t4,t5,commblock,t6);
                         }
                         else {
-                            //add comment here directly 
-                            var commblock = "<div class = \"well\">"; 
-                            commblock += "<div class=\"input-group\">";
-                            commblock += "<input type=\"text\" class=\"form-control\" placeholder=\"写下评论...\">";
-                            commblock += "<span class=\"input-group-btn\">";
-                            commblock += "<button class=\"btn btn-default\" type=\"button\" value = \"" + obj.id + "\">提交</button>";
-                            commblock += "</span></div>";
-                            commblock += "</div>";
+                            var commblockpre = "<div class = \"well\">"; 
+                            var commblock = commblockpre + commblock; 
                             $("#jspostblog").append(t1,t2,t3,t4,commblock);
                         }
                     });
