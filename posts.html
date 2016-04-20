@@ -326,13 +326,17 @@ function loadPage(num){
 
 <script>
 //load the default page 
-$(document).ready(loadPage(0));
+$(document).ready(function(){
+        loadPage(0);
+        toPage();
+        $("#1").attr("class","active");
+});
 </script>
 
 
 <script>
 //for paganation
-$(document).ready(function(){
+function toPage (){
            $.ajax({
                 type: "POST",
                 url : "/getPageNum",
@@ -354,7 +358,7 @@ $(document).ready(function(){
                     $("#pagenumber").append(t2);
                 }
             });
-});
+}
 </script>
 
 <script>
@@ -558,8 +562,12 @@ function checkValidation(show) {
                     success: function (data) {
                         if (data == "false")
                             alert("登录信息过期，请重新登录");
-                        else 
+                        else {
                             alert("评论成功");
+                            //get current page number for reloading
+                            var currentpage = $(".active").attr("id") - 1;
+                            loadPage(currentpage);
+                        }
                     },
                     error: function() {
                         alert("error");
