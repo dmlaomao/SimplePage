@@ -195,7 +195,6 @@ function hidediv() {
               <li><a href="./posts_files/posts.html">December 2013</a></li>
               <li><a href="./posts_files/posts.html">November 2013</a></li>
               <li><a href="./posts_files/posts.html">October 2013</a></li>
-              <li><a href="./posts_files/posts.html">September 2013</a></li>
             </ol>
           </div>
           <div class="sidebar-module">
@@ -212,10 +211,7 @@ function hidediv() {
     </div><!-- /.container -->
 
     <footer class="blog-footer">
-      <p>Blog template built for <a href="http://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-      <p>
-        <a href="./posts_files/posts.html">Back to top</a>
-      </p>
+      <p>Blog template built for <a href="http://getbootstrap.com/">Bootstrap</a> modified by <a href="/">dmlaomao</a>.</p>
     </footer>
 
 
@@ -228,6 +224,22 @@ function hidediv() {
   
 
 
+<script>
+//if has loged, show userName(no validation check
+$(document).ready(function(){
+        if (sessionStorage.userName != null) {
+            $("#main").fadeOut();
+            $("#username").text(sessionStorage.userName);
+            $(".mycustom").fadeIn();
+        }
+        /*
+        else {
+            alert("sb");
+            $("#main").attr("style","");
+        }
+        */
+});
+</script>
 
 
 
